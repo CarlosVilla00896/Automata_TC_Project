@@ -10,7 +10,8 @@ public class Automata {
         
     }
     
-    public String[] alfabeto(String alfabeto){
+    public String[] getAlfabeto(String alfabeto){
+        
         return null;
     }
 }

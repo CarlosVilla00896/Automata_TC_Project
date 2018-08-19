@@ -8,6 +8,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     
     Automata automata;
     String alfabeto[];
+    String autoName = "", alfabetoString = "", estados ="", estado_inicial ="", estados_aceptacion ="";
     
     public GenerarAutomata() {
         initComponents();
@@ -93,16 +94,12 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
 
         jBtnAceptacion.setText("Agregar");
 
-        jLabel11.setText("Estado inicial:");
+        jLabel11.setText("Estados de aceptacion (Separar con coma ','):");
 
         javax.swing.GroupLayout jPanelGenerateLayout = new javax.swing.GroupLayout(jPanelGenerate);
         jPanelGenerate.setLayout(jPanelGenerateLayout);
         jPanelGenerateLayout.setHorizontalGroup(
             jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
-                .addGap(0, 50, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
             .addGroup(jPanelGenerateLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -133,11 +130,16 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                 .addComponent(jSeparator1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtnEquivalencia)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBtnTest)
-                .addGap(185, 185, 185))
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
+                        .addComponent(jBtnEquivalencia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBtnTest)
+                        .addGap(185, 185, 185))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))))
         );
         jPanelGenerateLayout.setVerticalGroup(
             jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,7 +205,8 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void jButtonAddAlfabetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddAlfabetoActionPerformed
-        
+        this.alfabetoString =  this.jTxtAlfabeto.getText();
+        this.alfabeto =  automata.getAlfabeto(this.alfabetoString);
     }//GEN-LAST:event_jButtonAddAlfabetoActionPerformed
 
 
