@@ -64,7 +64,6 @@ public class MainWindow extends javax.swing.JFrame {
         GenerarAutomata automatas = new GenerarAutomata();
         this.jDesktopPane1.add(automatas);
         automatas.setVisible(true);
-        System.out.println("Entro al menu");
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
