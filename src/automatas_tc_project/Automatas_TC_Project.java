@@ -13,6 +13,8 @@ public class Automatas_TC_Project {
         new MainWindow().setVisible(true);
 //        Archivos file = new Archivos();
 //        file.abrirArchivo();
+        
+        
     }
     
 }

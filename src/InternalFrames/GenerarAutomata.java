@@ -16,12 +16,14 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     String alfabetoArr[], estadosArr[], estadosAceptacion[], estadosLlegada[];
     String autoName = "", alfabeto = "", estados = "", estado_inicial = "", estados_aceptacion = "";
     AFD afd;
+    Archivos archivo;
     boolean flagInitialState =false, flagAceptacion =false;
     
     public GenerarAutomata() {
         initComponents();
         automata = new TableUtilities();
         afd = new AFD();
+        archivo = new Archivos();
     }
 
     @SuppressWarnings("unchecked")
@@ -113,6 +115,11 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jBtnEquivalencia.setText("Equivalencia");
 
         jBtnTest.setText("Probar automata");
+        jBtnTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnTestActionPerformed(evt);
+            }
+        });
 
         jBtnAceptacion.setText("Agregar");
         jBtnAceptacion.addActionListener(new java.awt.event.ActionListener() {
@@ -345,10 +352,11 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         }else{
             this.estados_aceptacion += ","+this.jComboBoxAceptacion.getSelectedItem().toString();
         }
-        
         this.jLabelEstadosAceptacion.setText(this.estados_aceptacion);
         int index = this.jComboBoxAceptacion.getSelectedIndex();
-        automata.setEstadosProperties(this.jTable1, index, this.jComboBoxAceptacion.getSelectedItem().toString() + "*");
+        String valorAnterior = this.jTable1.getValueAt(index, 0).toString();
+        
+        automata.setEstadosProperties(this.jTable1, index, valorAnterior + "*");
     }//GEN-LAST:event_jBtnAceptacionActionPerformed
 
     private void jBtnTransicionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTransicionesActionPerformed
@@ -373,6 +381,10 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private void jBtnAceptarTransicionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarTransicionesActionPerformed
         afd.imprimirEstados();
     }//GEN-LAST:event_jBtnAceptarTransicionesActionPerformed
+
+    private void jBtnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTestActionPerformed
+        archivo.abrirArchivo();
+    }//GEN-LAST:event_jBtnTestActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

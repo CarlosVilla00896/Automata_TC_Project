@@ -14,9 +14,10 @@ public class Archivos {
     FileReader fr;
     Scanner scanner;
     String filename = "Test.txt";
+    AFD afd;
     
     public Archivos (){
-        
+        afd = new AFD();
     }
     
     public void abrirArchivo(){
@@ -27,9 +28,10 @@ public class Archivos {
             scanner.nextLine();
             
             while(scanner.hasNextLine()){
-                //hacer funcion del automata que recibe como parametro la cadena que se acaba de leer del fichero
                 String dato = scanner.nextLine();
-                System.out.println(dato);
+                afd.validarAFD_aux(dato);
+                
+//                System.out.println(dato);
             }
             
         }catch(IOException e){
