@@ -1,18 +1,27 @@
 package InternalFrames;
-import Classes.Automata;
+
+import Classes.TableUtilities;
+import Classes.Estados;
+import Classes.Transiciones;
+import Classes.Archivos;
+import Classes.AFD;
+
 /**
  *
  * @author PC
  */
 public class GenerarAutomata extends javax.swing.JInternalFrame {
-    
-    Automata automata;
-    String alfabetoArr[], estadosArr[];
-    String autoName = "", alfabeto = "", estados ="", estado_inicial ="", estados_aceptacion ="";
+
+    TableUtilities automata;
+    String alfabetoArr[], estadosArr[], estadosAceptacion[];
+    String autoName = "", alfabeto = "", estados = "", estado_inicial = "", estados_aceptacion = "";
+    AFD afd;
+    boolean flagInitialState =false, flagAceptacion =false;
     
     public GenerarAutomata() {
         initComponents();
-        automata = new Automata();
+        automata = new TableUtilities();
+        afd = new AFD();
     }
 
     @SuppressWarnings("unchecked")
@@ -47,7 +56,10 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jBtnAceptacion1 = new javax.swing.JButton();
+        jBtnTransiciones = new javax.swing.JButton();
+        jBtnAceptarEstadosAceptacion = new javax.swing.JButton();
+        jLabalEstadoInicial = new javax.swing.JLabel();
+        jLabelEstadosAceptacion = new javax.swing.JLabel();
         Equivalencia = new javax.swing.JPanel();
         jPanelVerAutomata = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -128,33 +140,28 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Estado de llegada");
 
-        jBtnAceptacion1.setText("Agregar");
-        jBtnAceptacion1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnTransiciones.setText("Agregar");
+        jBtnTransiciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnAceptacion1ActionPerformed(evt);
+                jBtnTransicionesActionPerformed(evt);
             }
         });
+
+        jBtnAceptarEstadosAceptacion.setText("Aceptar");
+        jBtnAceptarEstadosAceptacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAceptarEstadosAceptacionActionPerformed(evt);
+            }
+        });
+
+        jLabalEstadoInicial.setText("vacio");
+
+        jLabelEstadosAceptacion.setText("vacio");
 
         javax.swing.GroupLayout jPanelGenerateLayout = new javax.swing.GroupLayout(jPanelGenerate);
         jPanelGenerate.setLayout(jPanelGenerateLayout);
         jPanelGenerateLayout.setHorizontalGroup(
             jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelGenerateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
-                                .addComponent(jBtnEquivalencia)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jBtnTest)
-                                .addGap(180, 180, 180)))))
-                .addContainerGap())
             .addGroup(jPanelGenerateLayout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -174,24 +181,50 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane2)
                     .addComponent(jComboBoxSalida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxLlegada, 0, 201, Short.MAX_VALUE))
-                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelGenerateLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jBtnEstados)
-                                .addComponent(jBtnInicial))
-                            .addComponent(jBtnAceptacion, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(jPanelGenerateLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelGenerateLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jBtnAceptacion1))
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(26, 26, 26)
+                                .addComponent(jBtnEstados))
+                            .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jBtnTransiciones))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                                .addComponent(jLabalEstadoInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnInicial))
+                            .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                                .addComponent(jLabelEstadosAceptacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnAceptacion)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnAceptarEstadosAceptacion)
+                        .addGap(17, 17, 17))))
+            .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
+                        .addContainerGap(249, Short.MAX_VALUE)
+                        .addComponent(jBtnEquivalencia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBtnTest)
+                        .addGap(180, 180, 180))
+                    .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3))))
+                .addContainerGap())
         );
         jPanelGenerateLayout.setVerticalGroup(
             jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,14 +246,16 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jBtnInicial)
-                    .addComponent(jComboBoxEstadoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxEstadoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabalEstadoInicial))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jComboBoxAceptacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnAceptacion)
-                    .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(jComboBoxAceptacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                    .addComponent(jBtnAceptarEstadosAceptacion)
+                    .addComponent(jLabelEstadosAceptacion))
+                .addGap(19, 19, 19)
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jComboBoxSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,7 +264,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxTransicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jBtnAceptacion1))
+                    .addComponent(jBtnTransiciones))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxLlegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,15 +299,15 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void jBtnEstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEstadosActionPerformed
-        this.alfabeto =  this.jTxtAlfabeto.getText();
-        this.alfabetoArr =  automata.splitString(this.alfabeto);
+        this.alfabeto = this.jTxtAlfabeto.getText();
+        this.alfabetoArr = automata.splitString(this.alfabeto);
         this.estados = this.jTxtEstados.getText();
         this.estadosArr = automata.splitString(this.estados);
-        
+
         automata.generarColumnas(this.jTable1, this.alfabetoArr, this.estadosArr);
-        
+
         automata.setComboBoxData(this.jComboBoxEstadoInicial, estadosArr);
         automata.setComboBoxData(this.jComboBoxAceptacion, estadosArr);
         automata.setComboBoxData(this.jComboBoxSalida, estadosArr);
@@ -283,37 +318,58 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private void jBtnInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnInicialActionPerformed
         this.estado_inicial = this.jComboBoxEstadoInicial.getSelectedItem().toString();
         int index = this.jComboBoxEstadoInicial.getSelectedIndex();
-        automata.setEstadosProperties(this.jTable1, index, "->"+this.estado_inicial);
+        automata.setEstadosProperties(this.jTable1, index, "->" + this.estado_inicial);
+        flagInitialState = true;
+        
+        this.jLabalEstadoInicial.setText(this.estado_inicial);
+        if(flagInitialState){
+            this.jComboBoxEstadoInicial.setEnabled(false);
+            this.jBtnInicial.setEnabled(false);
+        }
     }//GEN-LAST:event_jBtnInicialActionPerformed
 
     private void jBtnAceptacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptacionActionPerformed
-        this.estados_aceptacion = this.jComboBoxAceptacion.getSelectedItem().toString();
+        if(!this.flagAceptacion){
+            this.estados_aceptacion += this.jComboBoxAceptacion.getSelectedItem().toString();
+            flagAceptacion = true;
+        }else{
+            this.estados_aceptacion += ","+this.jComboBoxAceptacion.getSelectedItem().toString();
+        }
+        
+        this.jLabelEstadosAceptacion.setText(this.estados_aceptacion);
         int index = this.jComboBoxAceptacion.getSelectedIndex();
-        automata.setEstadosProperties(this.jTable1, index, this.estados_aceptacion+"*");
+        automata.setEstadosProperties(this.jTable1, index, this.jComboBoxAceptacion.getSelectedItem().toString() + "*");
     }//GEN-LAST:event_jBtnAceptacionActionPerformed
 
-    private void jBtnAceptacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptacion1ActionPerformed
-       int row = this.jComboBoxSalida.getSelectedIndex();
-       int column = this.jComboBoxTransicion.getSelectedIndex();
-       String value = this.jComboBoxLlegada.getSelectedItem().toString();
-       
-       automata.addValues(this.jTable1, row, column+1, value);
-    }//GEN-LAST:event_jBtnAceptacion1ActionPerformed
+    private void jBtnTransicionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTransicionesActionPerformed
+        int row = this.jComboBoxSalida.getSelectedIndex();
+        int column = this.jComboBoxTransicion.getSelectedIndex();
+        String value = this.jComboBoxLlegada.getSelectedItem().toString();
+
+        automata.addValues(this.jTable1, row, column + 1, value);
+    }//GEN-LAST:event_jBtnTransicionesActionPerformed
+
+    private void jBtnAceptarEstadosAceptacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarEstadosAceptacionActionPerformed
+        this.estadosAceptacion = automata.splitString(this.estados_aceptacion);
+        afd.initStates(estadosArr, estado_inicial, estadosAceptacion);
+    }//GEN-LAST:event_jBtnAceptarEstadosAceptacionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Equivalencia;
     private javax.swing.JButton jBtnAceptacion;
-    private javax.swing.JButton jBtnAceptacion1;
+    private javax.swing.JButton jBtnAceptarEstadosAceptacion;
     private javax.swing.JButton jBtnEquivalencia;
     private javax.swing.JButton jBtnEstados;
     private javax.swing.JButton jBtnInicial;
     private javax.swing.JButton jBtnTest;
+    private javax.swing.JButton jBtnTransiciones;
     private javax.swing.JComboBox jComboBoxAceptacion;
     private javax.swing.JComboBox jComboBoxEstadoInicial;
     private javax.swing.JComboBox jComboBoxLlegada;
     private javax.swing.JComboBox jComboBoxSalida;
     private javax.swing.JComboBox jComboBoxTransicion;
+    private javax.swing.JLabel jLabalEstadoInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -323,6 +379,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelEstadosAceptacion;
     private javax.swing.JPanel jPanelGenerate;
     private javax.swing.JPanel jPanelVerAutomata;
     private javax.swing.JScrollPane jScrollPane1;

@@ -28,6 +28,8 @@ public class Archivos {
             
             while(scanner.hasNextLine()){
                 //hacer funcion del automata que recibe como parametro la cadena que se acaba de leer del fichero
+                String dato = scanner.nextLine();
+                System.out.println(dato);
             }
             
         }catch(IOException e){

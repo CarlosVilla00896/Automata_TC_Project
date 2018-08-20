@@ -10,9 +10,9 @@ import javax.swing.table.TableModel;
  *
  * @author PC
  */
-public class Automata {
+public class TableUtilities {
     
-    public Automata(){
+    public TableUtilities(){
         
     }
     
@@ -29,7 +29,7 @@ public class Automata {
         dataModel.addColumn("Q");
         for(int i=0; i<cantColumnas; i++){
             dataModel.addColumn(alfabeto[i]);
-            System.out.println("Columna: "+i+"Valor: "+alfabeto[i]);
+            //System.out.println("Columna: "+i+"Valor: "+alfabeto[i]);
         }
         
         int cantFilas = estados.length;
@@ -38,11 +38,11 @@ public class Automata {
         for(int i=0; i<cantFilas; i++){
             for(int j=0; j<cantColumnas; j++){
                 row[j] = null;
-                System.out.println("numero Columna: "+j);
+                //System.out.println("numero Columna: "+j);
             }
             dataModel.addRow(row);
             dataModel.setValueAt(estados[i], i, 0);
-            System.out.println("Numero fila: "+i+"Valor fila: "+estados[i]);
+            //System.out.println("Numero fila: "+i+"Valor fila: "+estados[i]);
         }
         
         table.setModel(dataModel);
