@@ -13,7 +13,7 @@ import Classes.AFD;
 public class GenerarAutomata extends javax.swing.JInternalFrame {
 
     TableUtilities automata;
-    String alfabetoArr[], estadosArr[], estadosAceptacion[];
+    String alfabetoArr[], estadosArr[], estadosAceptacion[], estadosLlegada[];
     String autoName = "", alfabeto = "", estados = "", estado_inicial = "", estados_aceptacion = "";
     AFD afd;
     boolean flagInitialState =false, flagAceptacion =false;
@@ -52,7 +52,6 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jComboBoxSalida = new javax.swing.JComboBox();
         jComboBoxTransicion = new javax.swing.JComboBox();
-        jComboBoxLlegada = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -60,6 +59,8 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jBtnAceptarEstadosAceptacion = new javax.swing.JButton();
         jLabalEstadoInicial = new javax.swing.JLabel();
         jLabelEstadosAceptacion = new javax.swing.JLabel();
+        jTxtEstadosLlegada = new javax.swing.JTextField();
+        jBtnAceptarTransiciones = new javax.swing.JButton();
         Equivalencia = new javax.swing.JPanel();
         jPanelVerAutomata = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -132,13 +133,11 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
 
         jComboBoxTransicion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBoxLlegada.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel2.setText("Estado de salida");
+        jLabel2.setText("Estado actual");
 
         jLabel3.setText("caracter de transicion");
 
-        jLabel4.setText("Estado de llegada");
+        jLabel4.setText("Estados de llegada");
 
         jBtnTransiciones.setText("Agregar");
         jBtnTransiciones.addActionListener(new java.awt.event.ActionListener() {
@@ -157,6 +156,13 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jLabalEstadoInicial.setText("vacio");
 
         jLabelEstadosAceptacion.setText("vacio");
+
+        jBtnAceptarTransiciones.setText("Aceptar");
+        jBtnAceptarTransiciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAceptarTransicionesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelGenerateLayout = new javax.swing.GroupLayout(jPanelGenerate);
         jPanelGenerate.setLayout(jPanelGenerateLayout);
@@ -178,9 +184,9 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                     .addComponent(jTxtEstados, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTxtNombre)
                     .addComponent(jComboBoxEstadoInicial, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                     .addComponent(jComboBoxSalida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxLlegada, 0, 201, Short.MAX_VALUE))
+                    .addComponent(jTxtEstadosLlegada))
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelGenerateLayout.createSequentialGroup()
                         .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,12 +196,15 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                             .addGroup(jPanelGenerateLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelGenerateLayout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jBtnTransiciones))
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel4))))
+                                    .addGroup(jPanelGenerateLayout.createSequentialGroup()
+                                        .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jBtnAceptarTransiciones)
+                                            .addComponent(jBtnTransiciones))))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelGenerateLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -267,9 +276,10 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                     .addComponent(jBtnTransiciones))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxLlegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTxtEstadosLlegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnAceptarTransiciones))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,7 +322,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         automata.setComboBoxData(this.jComboBoxAceptacion, estadosArr);
         automata.setComboBoxData(this.jComboBoxSalida, estadosArr);
         automata.setComboBoxData(this.jComboBoxTransicion, alfabetoArr);
-        automata.setComboBoxData(this.jComboBoxLlegada, estadosArr);
+        //automata.setComboBoxData(this.jComboBoxLlegada, estadosArr);
     }//GEN-LAST:event_jBtnEstadosActionPerformed
 
     private void jBtnInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnInicialActionPerformed
@@ -344,9 +354,15 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private void jBtnTransicionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTransicionesActionPerformed
         int row = this.jComboBoxSalida.getSelectedIndex();
         int column = this.jComboBoxTransicion.getSelectedIndex();
-        String value = this.jComboBoxLlegada.getSelectedItem().toString();
-
+        String value = this.jTxtEstadosLlegada.getText();
+        this.estadosLlegada = automata.splitString(value);
+        
         automata.addValues(this.jTable1, row, column + 1, value);
+        
+        String estadoName = this.jComboBoxSalida.getSelectedItem().toString();
+        String transicion = this.jComboBoxTransicion.getSelectedItem().toString();
+        
+        afd.initTransiciones(estadoName, transicion, value);
     }//GEN-LAST:event_jBtnTransicionesActionPerformed
 
     private void jBtnAceptarEstadosAceptacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarEstadosAceptacionActionPerformed
@@ -354,11 +370,16 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         afd.initStates(estadosArr, estado_inicial, estadosAceptacion);
     }//GEN-LAST:event_jBtnAceptarEstadosAceptacionActionPerformed
 
+    private void jBtnAceptarTransicionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarTransicionesActionPerformed
+        afd.imprimirEstados();
+    }//GEN-LAST:event_jBtnAceptarTransicionesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Equivalencia;
     private javax.swing.JButton jBtnAceptacion;
     private javax.swing.JButton jBtnAceptarEstadosAceptacion;
+    private javax.swing.JButton jBtnAceptarTransiciones;
     private javax.swing.JButton jBtnEquivalencia;
     private javax.swing.JButton jBtnEstados;
     private javax.swing.JButton jBtnInicial;
@@ -366,7 +387,6 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnTransiciones;
     private javax.swing.JComboBox jComboBoxAceptacion;
     private javax.swing.JComboBox jComboBoxEstadoInicial;
-    private javax.swing.JComboBox jComboBoxLlegada;
     private javax.swing.JComboBox jComboBoxSalida;
     private javax.swing.JComboBox jComboBoxTransicion;
     private javax.swing.JLabel jLabalEstadoInicial;
@@ -391,6 +411,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTxtAlfabeto;
     private javax.swing.JTextField jTxtEstados;
+    private javax.swing.JTextField jTxtEstadosLlegada;
     private javax.swing.JTextField jTxtNombre;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,11 +10,13 @@ public class Estados {
     
     public boolean isAceptacion;
     public String stateName;
-    public String actualState;
-    public ArrayList<Transiciones> transiciones = new ArrayList();
+    //public String actualState;
+    public ArrayList<Transiciones> transiciones;
     
     public Estados(String stateName){
         this.stateName = stateName;
+        this.isAceptacion = false;
+        transiciones = new ArrayList();
     }
 
     public void setIsAceptacion(boolean isAceptacion) {
@@ -25,9 +27,9 @@ public class Estados {
         this.stateName = stateName;
     }
     
-    public void setActualState(String actualState){
-        this.actualState = actualState;
-    }
+//    public void setActualState(String actualState){
+//        this.actualState = actualState;
+//    }
     
     public void setTransiciones(ArrayList<Transiciones> transiciones) {
         this.transiciones = transiciones;
@@ -41,9 +43,9 @@ public class Estados {
         return stateName;
     }
 
-    public String getActualState(){
-        return actualState;
-    }
+//    public String getActualState(){
+//        return actualState;
+//    }
     
     public ArrayList<Transiciones> getTransiciones() {
         return transiciones;

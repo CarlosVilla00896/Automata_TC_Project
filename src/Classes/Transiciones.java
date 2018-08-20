@@ -6,7 +6,7 @@ public class Transiciones {
     
     public String name;
     public Estados nextState;
-    public ArrayList<Estados> nextStates = new ArrayList();
+//    public ArrayList<Estados> nextStates = new ArrayList();
     
     public Transiciones(String name){
       this.name = name;
@@ -20,9 +20,9 @@ public class Transiciones {
         this.nextState = nextState;
     }
 
-    public void setNextStates(ArrayList<Estados> nextStates) {
-        this.nextStates = nextStates;
-    }
+//    public void setNextStates(ArrayList<Estados> nextStates) {
+//        this.nextStates = nextStates;
+//    }
     
     public String getName() {
         return name;
@@ -32,8 +32,8 @@ public class Transiciones {
         return nextState;
     }
 
-    public ArrayList<Estados> getNextStates() {
-        return nextStates;
-    }
+//    public ArrayList<Estados> getNextStates() {
+//        return nextStates;
+//    }
 
 }

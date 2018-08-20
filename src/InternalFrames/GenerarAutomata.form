@@ -63,9 +63,9 @@
                           <Component id="jTxtEstados" alignment="1" max="32767" attributes="0"/>
                           <Component id="jTxtNombre" alignment="0" max="32767" attributes="0"/>
                           <Component id="jComboBoxEstadoInicial" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="201" max="32767" attributes="0"/>
                           <Component id="jComboBoxSalida" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBoxLlegada" alignment="0" pref="201" max="32767" attributes="0"/>
+                          <Component id="jTxtEstadosLlegada" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
@@ -77,13 +77,18 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jBtnTransiciones" min="-2" max="-2" attributes="0"/>
-                                          </Group>
                                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jBtnAceptarTransiciones" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jBtnTransiciones" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
@@ -178,10 +183,11 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jComboBoxLlegada" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtEstadosLlegada" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jBtnAceptarTransiciones" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="21" max="32767" attributes="0"/>
+                      <EmptySpace pref="24" max="32767" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane3" min="-2" pref="167" max="-2" attributes="0"/>
@@ -350,21 +356,9 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBoxLlegada">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Estado de salida"/>
+                <Property name="text" type="java.lang.String" value="Estado actual"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -374,7 +368,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Estado de llegada"/>
+                <Property name="text" type="java.lang.String" value="Estados de llegada"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jBtnTransiciones">
@@ -402,6 +396,16 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="vacio"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTxtEstadosLlegada">
+            </Component>
+            <Component class="javax.swing.JButton" name="jBtnAceptarTransiciones">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Aceptar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnAceptarTransicionesActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
