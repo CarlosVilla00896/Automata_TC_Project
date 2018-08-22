@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class AFD {
     
     static ArrayList<Estados> estados;
-    static Estados estadoActual;
-    static Estados estadoInicial;
+    Estados estadoActual;
+    Estados estadoInicial;
 //    Archivos archivo;
     String palabrasAceptadas ="", palabrasNoAceptadas = "";
     
@@ -37,10 +37,11 @@ public class AFD {
     
     public void initTransiciones(String stateName, String transitionName, String estadoLlegada){
         System.out.println("Nombre del estado en init: "+stateName);
-        Estados s = this.obtenerEstado(stateName);
+        Estados initialState = this.obtenerEstado(stateName);
+        Estados nexState = this.obtenerEstado(estadoLlegada);
         Transiciones t = new Transiciones(transitionName);
-        t.nextState = new Estados(estadoLlegada);
-        s.transiciones.add(t);
+        t.nextState = nexState;
+        initialState.transiciones.add(t);
     }
     
     private Estados obtenerEstado(String nombreEstado){
@@ -53,26 +54,37 @@ public class AFD {
     }
     
     public boolean validarAFD(String cadena){
-        for(int i=0; i<cadena.length();i++){
-            String letra = cadena.substring(i, i+1);
-            Transiciones t = this.getTransiciones(estadoActual, letra);
-            if(t==null){
+        Transiciones temp = new Transiciones("");
+        for (int i = 0; i < cadena.length(); i++) {
+            String letra = cadena.substring(i, i + 1);
+//            temp = this.getTransiciones(estadoActual, letra, temp);
+            System.out.println("Letra extraida: " + letra);
+            System.out.println("Estado actual antes de analizar caracter: "+estadoActual.stateName +" Transiciones: "+estadoActual.getTransiciones());
+            for (Transiciones t : estadoActual.getTransiciones()) {
+                System.out.println("Entro al for de transiciones");
+//                System.out.println("letra: " + letra);
+//                System.out.println("Estado actual: " + estadoActual.stateName + " Transicion: " + t.name);
+                if (t.name.equals(letra)) {
+                    System.out.println("Letra se encuentra en las trasiciones, se almacena en temp");
+                    temp = t;//El problema es este return, no para la ejecucion aca.
+                    break;
+                }
+            }
+            System.out.println("El nombre de la transicion nueva es: " + temp.name);
+            if (temp.name.isEmpty()) {
                 System.out.println("entro al primer false");
                 return false;
-//                this.palabrasNoAceptadas +=cadena+" cadena no aceptada"+"\n";
-            }else{
-                estadoActual = t.nextState;
+            } else {
+                estadoActual = temp.nextState;
             }
+            System.out.println("Estado actual a final de caracter: " + estadoActual.stateName+" Transicones: "+estadoActual.getTransiciones());
         }
-        
-        if(estadoActual.isAceptacion){
+        System.out.println("Estado actual al final de cadena: "+ estadoActual.stateName);
+        if(estadoActual.isAceptacion)
             return true;
-//            this.palabrasAceptadas += cadena+" cadena aceptada"+"\n";
-        }else{
-            System.out.println("Entro al segundo false");
-            return false;
-//            this.palabrasNoAceptadas +=cadena+" cadena no aceptada"+"\n";
-        }
+        
+        return false;
+//       
     }
     
     public void validarAFD_aux(String cadena){
@@ -87,18 +99,18 @@ public class AFD {
         System.out.println(this.palabrasAceptadas);
         System.out.println(this.palabrasNoAceptadas);
     }
-    private Transiciones getTransiciones(Estados state, String letra){
+    private Transiciones getTransiciones(Estados state, String letra, Transiciones temp){
         for(Transiciones t: state.transiciones){
             System.out.println("letra: "+letra);
             System.out.println("Estado: "+state.stateName+" Transiciones: "+t.name);
             if(t.name.equals(letra)){
                 System.out.println("Si acepta la letra, es igual");
-                return t;//El problema es este return, no para la ejecucion aca.
+                temp = t;//El problema es este return, no para la ejecucion aca.
             }
             System.out.println("");
         }
-        System.out.println("Nunca encontro la transicion con la letra");
-        return null;
+        System.out.println("La transicion dice: "+temp.name);
+        return temp;
     }
     
     public void imprimirEstados(){

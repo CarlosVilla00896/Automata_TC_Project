@@ -11,7 +11,7 @@ public class Estados {
     public boolean isAceptacion;
     public String stateName;
     //public String actualState;
-    public ArrayList<Transiciones> transiciones;
+    public  ArrayList<Transiciones> transiciones;
     
     public Estados(String stateName){
         this.stateName = stateName;
