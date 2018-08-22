@@ -1,7 +1,6 @@
 package Classes;
 
 import java.util.ArrayList;
-
 /**
  *
  * @author PC
@@ -11,12 +10,11 @@ public class AFD {
     static ArrayList<Estados> estados;
     Estados estadoActual;
     Estados estadoInicial;
-//    Archivos archivo;
-    String palabrasAceptadas ="", palabrasNoAceptadas = "";
+    public String caracterIncorrecto ="";
+    static String alfabeto[];
     
     public AFD(){
         estados  = new ArrayList();
-//        archivo = new Archivos();
     }
     
     public void initStates(String estadosArr[], String estadoInicial1, String estadosAceptacion[]){
@@ -53,23 +51,21 @@ public class AFD {
         return null;
     }
     
+
     public boolean validarAFD(String cadena){
+        estadoActual = estados.get(0);
         Transiciones temp = new Transiciones("");
+        caracterIncorrecto ="";
         for (int i = 0; i < cadena.length(); i++) {
             String letra = cadena.substring(i, i + 1);
-//            temp = this.getTransiciones(estadoActual, letra, temp);
+            if(!verificarAlfabeto(letra)){
+                System.out.println("Entro al false este");
+                caracterIncorrecto = " caracter "+letra+ " no pertenece al alfabeto";
+                return false;
+            }    
             System.out.println("Letra extraida: " + letra);
             System.out.println("Estado actual antes de analizar caracter: "+estadoActual.stateName +" Transiciones: "+estadoActual.getTransiciones());
-            for (Transiciones t : estadoActual.getTransiciones()) {
-                System.out.println("Entro al for de transiciones");
-//                System.out.println("letra: " + letra);
-//                System.out.println("Estado actual: " + estadoActual.stateName + " Transicion: " + t.name);
-                if (t.name.equals(letra)) {
-                    System.out.println("Letra se encuentra en las trasiciones, se almacena en temp");
-                    temp = t;//El problema es este return, no para la ejecucion aca.
-                    break;
-                }
-            }
+            temp = this.getTransiciones(estadoActual, letra, temp);
             System.out.println("El nombre de la transicion nueva es: " + temp.name);
             if (temp.name.isEmpty()) {
                 System.out.println("entro al primer false");
@@ -84,33 +80,35 @@ public class AFD {
             return true;
         
         return false;
-//       
     }
-    
-    public void validarAFD_aux(String cadena){
-        estadoActual = estados.get(0);
-        
-        if(validarAFD(cadena)){
-            this.palabrasAceptadas += cadena+" cadena aceptada"+"\n";
-        }else{
-            this.palabrasNoAceptadas +=cadena+" cadena no aceptada"+"\n";
-        }
-        
-        System.out.println(this.palabrasAceptadas);
-        System.out.println(this.palabrasNoAceptadas);
-    }
+       
     private Transiciones getTransiciones(Estados state, String letra, Transiciones temp){
         for(Transiciones t: state.transiciones){
             System.out.println("letra: "+letra);
             System.out.println("Estado: "+state.stateName+" Transiciones: "+t.name);
             if(t.name.equals(letra)){
                 System.out.println("Si acepta la letra, es igual");
-                temp = t;//El problema es este return, no para la ejecucion aca.
+                temp = t;
+                break;
             }
-            System.out.println("");
         }
         System.out.println("La transicion dice: "+temp.name);
         return temp;
+    }
+    
+    private boolean verificarAlfabeto(String letra){
+        int contCaracter =0;
+        for(int i = 0; i<alfabeto.length; i++){
+            if(alfabeto[i].equals(letra))
+                contCaracter++;
+        }
+        if(contCaracter == 0)
+            return false;
+        return true;
+    }
+        
+    public void setAlfabeto (String[] alfabetoArr){
+        alfabeto = alfabetoArr;
     }
     
     public void imprimirEstados(){

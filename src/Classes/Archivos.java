@@ -13,11 +13,20 @@ public class Archivos {
     File file;
     FileReader fr;
     Scanner scanner;
-    String filename = "Test.txt";
+    String filename = "TestB.txt";
     AFD afd;
+    public String cadenasAceptas ="", cadenasNoAceptadas ="";
     
     public Archivos (){
         afd = new AFD();
+    }
+
+    public String getCadenasAceptas() {
+        return cadenasAceptas;
+    }
+
+    public String getCadenasNoAceptadas() {
+        return cadenasNoAceptadas;
     }
     
     public void abrirArchivo(){
@@ -29,8 +38,11 @@ public class Archivos {
             
             while(scanner.hasNextLine()){
                 String dato = scanner.nextLine();
-                afd.validarAFD_aux(dato);
-                
+                if(afd.validarAFD(dato)){
+                    this.cadenasAceptas+= dato+" cadena aceptada"+"\n";
+                }else{
+                    this.cadenasNoAceptadas += dato+" cadena no aceptada "+afd.caracterIncorrecto+"\n";
+                }
 //                System.out.println(dato);
             }
             

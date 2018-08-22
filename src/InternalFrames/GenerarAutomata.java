@@ -11,13 +11,14 @@ import Classes.AFD;
  * @author PC
  */
 public class GenerarAutomata extends javax.swing.JInternalFrame {
-
+    
     TableUtilities automata;
-    String alfabetoArr[], estadosArr[], estadosAceptacion[], estadosLlegada[];
+    public String alfabetoArr[], estadosArr[], estadosAceptacion[], estadosLlegada[];
     String autoName = "", alfabeto = "", estados = "", estado_inicial = "", estados_aceptacion = "";
     AFD afd;
     Archivos archivo;
     boolean flagInitialState =false, flagAceptacion =false;
+    String palabrasAceptadas = "", palabrasNoAceptadas ="";
     
     public GenerarAutomata() {
         initComponents();
@@ -63,10 +64,10 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jLabelEstadosAceptacion = new javax.swing.JLabel();
         jTxtEstadosLlegada = new javax.swing.JTextField();
         jBtnAceptarTransiciones = new javax.swing.JButton();
-        Equivalencia = new javax.swing.JPanel();
+        jPanelEquivalencia = new javax.swing.JPanel();
         jPanelVerAutomata = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaVerCadenas = new javax.swing.JTextArea();
 
         setClosable(true);
         setIconifiable(true);
@@ -299,14 +300,14 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Generar Automata", jPanelGenerate);
 
-        Equivalencia.setLayout(new java.awt.BorderLayout());
-        jTabbedPane1.addTab("Equivalencia", Equivalencia);
+        jPanelEquivalencia.setLayout(new java.awt.BorderLayout());
+        jTabbedPane1.addTab("Equivalencia", jPanelEquivalencia);
 
         jPanelVerAutomata.setLayout(new java.awt.BorderLayout());
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaVerCadenas.setColumns(20);
+        jTextAreaVerCadenas.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaVerCadenas);
 
         jPanelVerAutomata.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -320,6 +321,8 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private void jBtnEstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEstadosActionPerformed
         this.alfabeto = this.jTxtAlfabeto.getText();
         this.alfabetoArr = automata.splitString(this.alfabeto);
+        System.out.println("El arreglo de alfabeto dice: "+this.alfabetoArr);
+        afd.setAlfabeto(this.alfabetoArr);
         this.estados = this.jTxtEstados.getText();
         this.estadosArr = automata.splitString(this.estados);
 
@@ -384,11 +387,12 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
 
     private void jBtnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTestActionPerformed
         archivo.abrirArchivo();
+        System.out.println("Evaluacion de cadenas: "+archivo.getCadenasAceptas() +archivo.getCadenasNoAceptadas());
+        this.jTextAreaVerCadenas.setText(archivo.getCadenasAceptas() +archivo.getCadenasNoAceptadas());
     }//GEN-LAST:event_jBtnTestActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Equivalencia;
     private javax.swing.JButton jBtnAceptacion;
     private javax.swing.JButton jBtnAceptarEstadosAceptacion;
     private javax.swing.JButton jBtnAceptarTransiciones;
@@ -412,6 +416,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelEstadosAceptacion;
+    private javax.swing.JPanel jPanelEquivalencia;
     private javax.swing.JPanel jPanelGenerate;
     private javax.swing.JPanel jPanelVerAutomata;
     private javax.swing.JScrollPane jScrollPane1;
@@ -420,7 +425,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextAreaVerCadenas;
     private javax.swing.JTextArea jTxtAlfabeto;
     private javax.swing.JTextField jTxtEstados;
     private javax.swing.JTextField jTxtEstadosLlegada;
