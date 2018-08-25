@@ -35,7 +35,7 @@ public class Estados {
         this.transiciones = transiciones;
     }
 
-    public boolean isIsAceptacion() {
+    public boolean getIsAceptacion() {
         return isAceptacion;
     }
 

@@ -114,6 +114,11 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jScrollPane3.setViewportView(jTable1);
 
         jBtnEquivalencia.setText("Equivalencia");
+        jBtnEquivalencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEquivalenciaActionPerformed(evt);
+            }
+        });
 
         jBtnTest.setText("Probar automata");
         jBtnTest.addActionListener(new java.awt.event.ActionListener() {
@@ -218,7 +223,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                         .addGap(10, 10, 10)
                         .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanelGenerateLayout.createSequentialGroup()
-                                .addComponent(jLabalEstadoInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabalEstadoInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBtnInicial))
                             .addGroup(jPanelGenerateLayout.createSequentialGroup()
@@ -231,11 +236,11 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
             .addGroup(jPanelGenerateLayout.createSequentialGroup()
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
-                        .addContainerGap(249, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtnEquivalencia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jBtnTest)
-                        .addGap(180, 180, 180))
+                        .addGap(190, 190, 190))
                     .addGroup(jPanelGenerateLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,7 +378,9 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         String estadoName = this.jComboBoxSalida.getSelectedItem().toString();
         String transicion = this.jComboBoxTransicion.getSelectedItem().toString();
         
-        afd.initTransiciones(estadoName, transicion, value);
+        for(int i = 0; i<estadosLlegada.length; i++){
+         afd.initTransiciones(estadoName, transicion, estadosLlegada[i]);   
+        }
     }//GEN-LAST:event_jBtnTransicionesActionPerformed
 
     private void jBtnAceptarEstadosAceptacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarEstadosAceptacionActionPerformed
@@ -390,6 +397,10 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         System.out.println("Evaluacion de cadenas: "+archivo.getCadenasAceptas() +archivo.getCadenasNoAceptadas());
         this.jTextAreaVerCadenas.setText(archivo.getCadenasAceptas() +archivo.getCadenasNoAceptadas());
     }//GEN-LAST:event_jBtnTestActionPerformed
+
+    private void jBtnEquivalenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEquivalenciaActionPerformed
+        afd.initNFAStates();
+    }//GEN-LAST:event_jBtnEquivalenciaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -13,7 +13,7 @@ public class Archivos {
     File file;
     FileReader fr;
     Scanner scanner;
-    String filename = "TestB.txt";
+    String filename = "TestNFA.txt";
     AFD afd;
     public String cadenasAceptas ="", cadenasNoAceptadas ="";
     
