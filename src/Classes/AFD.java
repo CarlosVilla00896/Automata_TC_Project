@@ -77,7 +77,8 @@ public class AFD {
                 System.out.println("entro al primer false");
                 return false;
             } else {
-                estadoActual = temp.nextState;
+                Estados t = this.obtenerEstado(temp.nextState.getStateName(), estados);
+                estadoActual = t;
             }
             System.out.println("Estado actual a final de caracter: " + estadoActual.stateName+" Transicones: "+estadoActual.getTransiciones());
         }
@@ -167,12 +168,12 @@ public class AFD {
     public void conversionNFA(){
        //convertedStates = nfaStates;
        //imprimirEstadosNFA(convertedStates);
-       for(Estados states: nfaStates){
-           for(Transiciones t: states.getTransiciones()){
-               init_nfaTransitions(states.stateName,t.name,t.nextState.stateName);//el error es porque estoy modificando las transiciones mientras las itero, usar Iterator
-           }
-       }
-      estados = convertedStates;
+//       for(Estados states: nfaStates){
+//           for(Transiciones t: states.getTransiciones()){
+//               init_nfaTransitions(states.stateName,t.name,t.nextState.stateName);//el error es porque estoy modificando las transiciones mientras las itero, usar Iterator
+//           }
+//       }
+      estados = nfaStates;
     }
     
     public ArrayList <Transiciones> unirTransiciones(Estados e){
@@ -242,15 +243,15 @@ public class AFD {
     
     public void init_nfaTransitions(String estadoSalida, String transitionName, String estadoLlegada){
         System.out.println("Nombre del estado en init: "+estadoSalida);
-//        Estados initialState = this.obtenerEstado(estadoSalida,nfaStates);
-//        Estados nextState = this.obtenerEstado(estadoLlegada,nfaStates);
-//        
-        Estados initialState2 = this.obtenerEstado(estadoSalida,convertedStates);
-        Estados nextState2 = this.obtenerEstado(estadoLlegada,convertedStates);
+        Estados initialState = this.obtenerEstado(estadoSalida,nfaStates);
+        Estados nextState = this.obtenerEstado(estadoLlegada,nfaStates);
         
+//        Estados initialState2 = this.obtenerEstado(estadoSalida,convertedStates);
+//        Estados nextState2 = this.obtenerEstado(estadoLlegada,convertedStates);
+//        
         Transiciones t = new Transiciones(transitionName);
-        t.nextState = nextState2;
-        initialState2.getTransiciones().add(t);
+        t.nextState = nextState;
+        initialState.getTransiciones().add(t);
     }
 
     public void imprimirEstadosNFA(){
