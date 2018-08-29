@@ -14,14 +14,25 @@ public class AFD {
     static String alfabeto[];
     
     static ArrayList <Estados> nfaStates ;
-    public ArrayList <Estados> convertedStates;
+//    public ArrayList <Estados> convertedStates;
     
     
     public AFD(){
         estados  = new ArrayList();
     }
     
-    public void initStates(String estadosArr[], String estadoInicial1, String estadosAceptacion[]){
+    public ArrayList<Estados> getEstados(){
+        return estados;
+    }
+    
+    public String[] getAlfabeto (){
+        return alfabeto;
+    }
+    
+    public void setEstados(ArrayList<Estados> states){
+        estados = states;
+    }
+    public void initStates(String estadosArr[], String estadosAceptacion[]){
         for (String estadosArr1 : estadosArr) {
             Estados s;
             s = new Estados(estadosArr1);
@@ -29,11 +40,11 @@ public class AFD {
                 if (estadosArr1.equals(estadosAceptacion1))
                     s.setIsAceptacion(true);
             }
-            if (estadosArr1.equals(estadoInicial1))
-                estadoInicial = s;
+//            if (estadosArr1.equals(estadoInicial1))
+//                estadoInicial = s;
             estados.add(s);
         }
-        estadoActual = estadoInicial;
+//        estadoActual = estadoInicial;
         //this.imprimirEstados();
     }
     
@@ -105,6 +116,7 @@ public class AFD {
     
     private boolean verificarAlfabeto(String letra){
         int contCaracter =0;
+        System.out.println("Tamano del arreglo de alfabeto en verificar: "+alfabeto.length);
         for(int i = 0; i<alfabeto.length; i++){
             if(alfabeto[i].equals(letra))
                 contCaracter++;
@@ -120,10 +132,6 @@ public class AFD {
     
     public void imprimirEstados(){
         int cont = 1;
-        System.out.println("Mi estado inicial es: "+estadoInicial.getStateName());
-        System.out.println("Sus transiciones son: ");
-        for(Transiciones t: estadoInicial.getTransiciones())
-            System.out.println(t.name+ ": "+t.nextState.getStateName());
         for(Estados states: estados){
             //System.out.println("Numero de estado: "+cont);
             System.out.println("nombre estado: "+states.getStateName());
@@ -166,13 +174,6 @@ public class AFD {
     //tengo que evaluar sus nextstates tal como al primer estado y agregarlos a la lista, repetir el mismo proceso mientras
     //los nextstates no se encuentran en la lista.
     public void conversionNFA(){
-       //convertedStates = nfaStates;
-       //imprimirEstadosNFA(convertedStates);
-//       for(Estados states: nfaStates){
-//           for(Transiciones t: states.getTransiciones()){
-//               init_nfaTransitions(states.stateName,t.name,t.nextState.stateName);//el error es porque estoy modificando las transiciones mientras las itero, usar Iterator
-//           }
-//       }
       estados = nfaStates;
     }
     
@@ -197,7 +198,6 @@ public class AFD {
                     if(!buscarTransicion(transiciones, tempAnterior))
                         transiciones.add(tempAnterior);
                 }
-//                transiciones.add(temp);
             }
         }
         return transiciones;
@@ -240,25 +240,10 @@ public class AFD {
                 System.out.println(t.name+ ": "+t.nextState.getStateName());
          return nuevoEstado;
     }
-    
-    public void init_nfaTransitions(String estadoSalida, String transitionName, String estadoLlegada){
-        System.out.println("Nombre del estado en init: "+estadoSalida);
-        Estados initialState = this.obtenerEstado(estadoSalida,nfaStates);
-        Estados nextState = this.obtenerEstado(estadoLlegada,nfaStates);
-        
-//        Estados initialState2 = this.obtenerEstado(estadoSalida,convertedStates);
-//        Estados nextState2 = this.obtenerEstado(estadoLlegada,convertedStates);
-//        
-        Transiciones t = new Transiciones(transitionName);
-        t.nextState = nextState;
-        initialState.getTransiciones().add(t);
-    }
 
     public void imprimirEstadosNFA(){
         int cont = 1;
         System.out.println("Mi NFA: ");
-//        for(Transiciones t: estadoInicial.getTransiciones())
-//            System.out.println(t.name+ ": "+t.nextState.getStateName());
         for(Estados states: nfaStates){
             //System.out.println("Numero de estado: "+cont);
             System.out.println("nombre estado: "+states.getStateName());
