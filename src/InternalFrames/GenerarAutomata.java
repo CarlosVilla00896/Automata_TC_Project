@@ -5,6 +5,7 @@ import Classes.Estados;
 import Classes.Transiciones;
 import Classes.Archivos;
 import Classes.AFD;
+import Classes.NFAe;
 import Classes.QueryManager;
 import javax.swing.DefaultComboBoxModel;
 
@@ -18,6 +19,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     public String alfabetoArr[], estadosArr[], estadosAceptacion[], estadosLlegada[];
     String autoName = "", alfabeto = "", estados = "", estado_inicial = "", estados_aceptacion = "";
     AFD afd;
+    NFAe nfaE;
     Archivos archivo;
     boolean flagInitialState =false, flagAceptacion =false;
     String palabrasAceptadas = "", palabrasNoAceptadas ="";
@@ -29,6 +31,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         initComponents();
         automata = new TableUtilities();
         afd = new AFD();
+        nfaE =  new NFAe();
         archivo = new Archivos();
         query = new QueryManager();
         listarAutomatas();
@@ -89,10 +92,19 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jTxtAceptacionAuto = new javax.swing.JTextField();
         jRbManual = new javax.swing.JRadioButton();
         jRbAutomatico = new javax.swing.JRadioButton();
-        jRbNFA = new javax.swing.JRadioButton();
+        jRbNFAe = new javax.swing.JRadioButton();
+        jButtonGenerarEpsilon = new javax.swing.JButton();
         jPanelEquivalencia = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTableEquivalenciaNFA = new javax.swing.JTable();
+        jPanelNFAe = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableNFAe = new javax.swing.JTable();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTableNFA = new javax.swing.JTable();
+        jBtnEquivalencia1 = new javax.swing.JButton();
         jPanelVerAutomata = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaVerCadenas = new javax.swing.JTextArea();
@@ -141,7 +153,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         ));
         jScrollPane3.setViewportView(jTable1);
 
-        jBtnEquivalencia.setText("Equivalencia");
+        jBtnEquivalencia.setText("Equivalencia DFA");
         jBtnEquivalencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnEquivalenciaActionPerformed(evt);
@@ -245,7 +257,14 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
             }
         });
 
-        jRbNFA.setText("NFA");
+        jRbNFAe.setText("NFAe");
+
+        jButtonGenerarEpsilon.setText("Generar epsilon");
+        jButtonGenerarEpsilon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenerarEpsilonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelGenerateLayout = new javax.swing.GroupLayout(jPanelGenerate);
         jPanelGenerate.setLayout(jPanelGenerateLayout);
@@ -255,10 +274,12 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBtnEquivalencia)
+                        .addComponent(jButtonGenerarEpsilon, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(jBtnEquivalencia)
+                        .addGap(27, 27, 27)
                         .addComponent(jBtnTest)
-                        .addGap(190, 190, 190))
+                        .addGap(218, 218, 218))
                     .addGroup(jPanelGenerateLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,7 +353,7 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                                                 .addComponent(jButtonGenerarTabla)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jRbNFA)
+                                                    .addComponent(jRbNFAe)
                                                     .addComponent(jButtonGenerarAutomata)))))
                                     .addGroup(jPanelGenerateLayout.createSequentialGroup()
                                         .addComponent(jLabel12)
@@ -411,12 +432,12 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                                     .addComponent(jButtonGenerarTabla)
                                     .addComponent(jButtonGenerarAutomata))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRbNFA)))
+                                .addComponent(jRbNFAe)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelGenerateLayout.createSequentialGroup()
                                 .addComponent(jRbManual)
-                                .addGap(0, 2, Short.MAX_VALUE))
+                                .addGap(0, 35, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenerateLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jRbAutomatico))))
@@ -425,11 +446,12 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(6, 6, 6)
                 .addGroup(jPanelGenerateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGenerarEpsilon)
                     .addComponent(jBtnEquivalencia)
                     .addComponent(jBtnTest))
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
 
         jTabbedPane1.addTab("Generar Automata", jPanelGenerate);
@@ -452,19 +474,98 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         jPanelEquivalenciaLayout.setHorizontalGroup(
             jPanelEquivalenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEquivalenciaLayout.createSequentialGroup()
-                .addContainerGap(298, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77))
+                .addContainerGap(171, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(128, 128, 128))
         );
         jPanelEquivalenciaLayout.setVerticalGroup(
             jPanelEquivalenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelEquivalenciaLayout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(62, 62, 62)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(249, Short.MAX_VALUE))
+                .addContainerGap(298, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Equivalencia", jPanelEquivalencia);
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel13.setText("Tabla NFAe generada");
+
+        jTableNFAe.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(jTableNFAe);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel14.setText("NFA generado a partir de NFAe");
+
+        jTableNFA.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane6.setViewportView(jTableNFA);
+
+        jBtnEquivalencia1.setText("Equivalencia DFA");
+        jBtnEquivalencia1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEquivalencia1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelNFAeLayout = new javax.swing.GroupLayout(jPanelNFAe);
+        jPanelNFAe.setLayout(jPanelNFAeLayout);
+        jPanelNFAeLayout.setHorizontalGroup(
+            jPanelNFAeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelNFAeLayout.createSequentialGroup()
+                .addGroup(jPanelNFAeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelNFAeLayout.createSequentialGroup()
+                        .addGap(248, 248, 248)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelNFAeLayout.createSequentialGroup()
+                        .addGap(257, 257, 257)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelNFAeLayout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(jPanelNFAeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelNFAeLayout.createSequentialGroup()
+                        .addGap(350, 350, 350)
+                        .addComponent(jBtnEquivalencia1)))
+                .addContainerGap(109, Short.MAX_VALUE))
+        );
+        jPanelNFAeLayout.setVerticalGroup(
+            jPanelNFAeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelNFAeLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel13)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jLabel14)
+                .addGap(42, 42, 42)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jBtnEquivalencia1)
+                .addContainerGap(126, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("NFAe", jPanelNFAe);
 
         jPanelVerAutomata.setLayout(new java.awt.BorderLayout());
 
@@ -583,8 +684,14 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
 
     private void jButtonGenerarAutomataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarAutomataActionPerformed
         this.estadosAceptacion = automata.splitString(this.jLabelEstadosAceptacion.getText());
-        automata.generateAutomata(jTable1, this.estadosAceptacion);
-        
+        int n =0;
+        if(this.jRbNFAe.isSelected()){
+            n = 2;
+            automata.generateAutomata2(jTable1, this.estadosAceptacion, n);
+        }else{
+            n = 1;
+            automata.generateAutomata(jTable1, this.estadosAceptacion, n);
+        }
     }//GEN-LAST:event_jButtonGenerarAutomataActionPerformed
 
     private void jRbManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRbManualActionPerformed
@@ -631,17 +738,33 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jRbAutomaticoActionPerformed
 
+    private void jButtonGenerarEpsilonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarEpsilonActionPerformed
+        nfaE.generarNFAe();
+        nfaE.imprimirEstadosNFAe(nfaE.getNfaeStates());
+        nfaE.imprimirEstadosNFAe(nfaE.getNfa());
+        //automata.generarTabla(this.jTableNFAe, nfaE.getNfaeStates());
+        automata.generarTabla(this.jTableNFA, nfaE.getNfa());
+        afd.setEstados(nfaE.getNfa());
+    }//GEN-LAST:event_jButtonGenerarEpsilonActionPerformed
+
+    private void jBtnEquivalencia1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEquivalencia1ActionPerformed
+        afd.initNFAStates();
+        automata.generarTabla(this.jTableEquivalenciaNFA, afd.getEstados());
+    }//GEN-LAST:event_jBtnEquivalencia1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAceptacion;
     private javax.swing.JButton jBtnAceptarEstadosAceptacion;
     private javax.swing.JButton jBtnAceptarTransiciones;
     private javax.swing.JButton jBtnEquivalencia;
+    private javax.swing.JButton jBtnEquivalencia1;
     private javax.swing.JButton jBtnEstados;
     private javax.swing.JButton jBtnInicial;
     private javax.swing.JButton jBtnTest;
     private javax.swing.JButton jBtnTransiciones;
     private javax.swing.JButton jButtonGenerarAutomata;
+    private javax.swing.JButton jButtonGenerarEpsilon;
     private javax.swing.JButton jButtonGenerarTabla;
     private javax.swing.JComboBox jComboBoxAceptacion;
     private javax.swing.JComboBox jComboBoxAutomata;
@@ -654,6 +777,8 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -665,19 +790,24 @@ public class GenerarAutomata extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabelEstadosAceptacion;
     private javax.swing.JPanel jPanelEquivalencia;
     private javax.swing.JPanel jPanelGenerate;
+    private javax.swing.JPanel jPanelNFAe;
     private javax.swing.JPanel jPanelVerAutomata;
     private javax.swing.JRadioButton jRbAutomatico;
     private javax.swing.JRadioButton jRbManual;
-    private javax.swing.JRadioButton jRbNFA;
+    private javax.swing.JRadioButton jRbNFAe;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableEquivalenciaNFA;
+    private javax.swing.JTable jTableNFA;
+    private javax.swing.JTable jTableNFAe;
     private javax.swing.JTextArea jTextAreaVerCadenas;
     private javax.swing.JTextField jTxtAceptacionAuto;
     private javax.swing.JTextArea jTxtAlfabeto;

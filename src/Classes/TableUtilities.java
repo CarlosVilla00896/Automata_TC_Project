@@ -15,8 +15,10 @@ public class TableUtilities {
     
     public String [] alfabeto;
     AFD afd;
+    NFAe nfaE;
     public TableUtilities(){
         afd = new AFD();
+        nfaE = new NFAe();
     }
     
     public String[] splitString(String alfabeto){
@@ -92,42 +94,7 @@ public class TableUtilities {
         }
     }
     
-//    public ArrayList<Estados> generarAutomata(JTable table){
-//        ArrayList<Estados> estadosList = new ArrayList();
-//        TableModel tableModel = table.getModel();
-//        String []alfabetoArr =  new String [tableModel.getColumnCount()-1];
-//        Estados estado = new Estados("");
-//        Estados nextState = new Estados("");
-//        Transiciones transicion = new Transiciones("");
-//            
-//        
-//        for(int i = 0; i<tableModel.getRowCount(); i++){
-//            ArrayList<Transiciones> transicionesList = new ArrayList();
-//            if(i>0){
-//               alfabetoArr[i-1] = tableModel.getColumnName(i);
-//               System.out.println("La letra agregada es: "+alfabetoArr[i]);
-//               transicion.name = tableModel.getColumnName(i);
-//            }   
-//            System.out.println("El numero de columna es: "+i);
-//            for(int j = 0; j<tableModel.getColumnCount(); j++){
-//                if((i==0)){
-//                    estado.stateName = tableModel.getValueAt(i, j).toString();
-//                    System.out.println("El nombre del estado en la fila "+j+ " es: "+estado.stateName);
-//                }
-//                if(j>0){
-//                    nextState.stateName = tableModel.getValueAt(i, j).toString();
-//                    System.out.println("Fila: "+i+" Columna: "+j);
-//                    transicion.nextState = nextState;
-//                    transicionesList.add(transicion);
-//                }
-//            }
-//            estado.setTransiciones(transicionesList);
-//            estadosList.add(estado);
-//        }
-//        
-//        return estadosList;
-//    }
-//   
+
     public void setCombo(JTable table, JComboBox combo){
         TableModel tableModel = table.getModel();
         String estados[] = new String [tableModel.getRowCount()];
@@ -140,9 +107,9 @@ public class TableUtilities {
         this.setComboBoxData(combo, estados);
     }
     
-    public void generateAutomata(JTable table, String [] estadosAceptacion){
+    public void generateAutomata(JTable table, String [] estadosAceptacion, int numAlfabeto){
         TableModel tableModel = table.getModel();
-        this.alfabeto = new String [tableModel.getColumnCount()-1];
+        this.alfabeto = new String [tableModel.getColumnCount()-numAlfabeto];
         String estados[] = new String [tableModel.getRowCount()];
         
         for(int i = 0; i<tableModel.getRowCount();i++){
@@ -157,7 +124,7 @@ public class TableUtilities {
             String estadoLlegada = ""; 
             for(int j = 0; j<tableModel.getColumnCount(); j++){
                 if(j<this.alfabeto.length)
-                    this.alfabeto[j] = tableModel.getColumnName(j+1).toLowerCase();
+                    this.alfabeto[j] = tableModel.getColumnName(j+numAlfabeto).toLowerCase();
                 if(j>0){
                     stateName = estados[i];
                     transitionName = tableModel.getColumnName(j).toLowerCase();
@@ -171,10 +138,50 @@ public class TableUtilities {
             }
         }
         afd.imprimirEstados();
+        nfaE.setNfaeStates(afd.getEstados());
+        System.out.println("Alfabeto: ");
+        for(int i = 0; i<alfabeto.length;i++){
+            System.out.println(alfabeto[i]);
+        }
+        nfaE.setAlfabeto(alfabeto);
         afd.setAlfabeto(alfabeto);
     }
     
-    public void generarNFA(JTable table, String [] estadosAceptacion){
+    public void generateAutomata2(JTable table, String [] estadosAceptacion, int numAlfabeto){
+        TableModel tableModel = table.getModel();
+        this.alfabeto = new String [tableModel.getColumnCount()-numAlfabeto];
+        String estados[] = new String [tableModel.getRowCount()];
         
+        for(int i = 0; i<tableModel.getRowCount();i++){
+            estados[i] = tableModel.getValueAt(i, 0).toString();
+            System.out.println("El nombre del estado en la fila "+i+ " es: "+estados[i]);
+        }
+        nfaE.initStates(estados, estadosAceptacion);
+        
+        for(int i = 0; i<tableModel.getRowCount(); i++){
+            String stateName = "";
+            String transitionName = ""; 
+            String estadoLlegada = ""; 
+            for(int j = 0; j<tableModel.getColumnCount(); j++){
+                if(j<this.alfabeto.length)
+                    this.alfabeto[j] = tableModel.getColumnName(j+numAlfabeto).toLowerCase();
+                if(j>0){
+                    stateName = estados[i];
+                    transitionName = tableModel.getColumnName(j).toLowerCase();
+                    estadoLlegada = tableModel.getValueAt(i, j).toString();
+                    String estadosLlegada[] = estadoLlegada.split(",");
+                    for(int k =0; k<estadosLlegada.length; k++)
+                            nfaE.initTransiciones(stateName, transitionName, estadosLlegada[k]);
+                }
+            }
+        }
+        nfaE.imprimirEstadosNFAe(nfaE.getNfaeStates());
+        System.out.println("Alfabeto: ");
+        for(int i = 0; i<alfabeto.length;i++){
+            System.out.println(alfabeto[i]);
+        }
+        nfaE.setAlfabeto(alfabeto);
+        afd.setAlfabeto(alfabeto);
     }
+    
 }
